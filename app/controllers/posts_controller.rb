@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -19,17 +20,13 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
-    @post = Post.find(params[:id])
+  def show 
   end
 
-  def edit
-    @post = Post.find(params[:id])
+  def edit  
   end
 
   def update
-    @post = Post.find(params[:id])
-
     if @post.update(params[:post].permit(:title, :body))
       redirect_to @post
     else
@@ -48,6 +45,10 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:title, :body)
+  end
+
+  def find_post
+    @post = Post.find(params[:id])
   end
 
 end
